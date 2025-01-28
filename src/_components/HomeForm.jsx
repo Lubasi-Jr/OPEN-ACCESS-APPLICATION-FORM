@@ -12,9 +12,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const terms = [
-  { id: "short", type: "Short-Term" },
-  { id: "medium", type: "Medium-Term" },
-  { id: "long", type: "Long-Term" },
+  { id: "short", type: "Short-Term", value: 0 },
+  { id: "medium", type: "Medium-Term", value: 1 },
+  { id: "long", type: "Long-Term", value: 2 },
 ];
 const acks = [
   "a) I am duly authorized to make this declaration",
@@ -23,13 +23,19 @@ const acks = [
   "d) all information provide herein is to the best of my knowledge true and correct",
 ];
 
+const initialFiles = {
+  ZRA: null,
+  fundsDeclaration: null,
+  signature: null,
+};
+
 const initialForm = {
   /* Details of Applicant */
   name: "",
   address: "",
   telephone: "",
   email: "",
-  //Missing Terms
+  term: 0,
 
   /* Contact Person */
   contact_name: "",
@@ -52,7 +58,7 @@ const initialForm = {
   substation_feeder: "",
 
   /* Drawing Point Details */
-  name_of_users: "",
+  names_of_users: "",
   drawing_drawing_voltage: "",
   drawing_capacity: "",
   drawing_short_circuit: "",
@@ -71,8 +77,23 @@ const reducer = (state, action) => {
   }
 };
 
+const documentReducer = (state, action) => {
+  switch (action.type) {
+    case "UPDATE_FIELDS":
+      return { ...state, [action.id]: action.payload };
+    case "RESET_FIELDS":
+      return initialFiles;
+    default:
+      return state;
+  }
+};
+
 const HomeForm = () => {
   const [form, dispatch] = useReducer(reducer, initialForm);
+  const [documents, documentDispatch] = useReducer(
+    documentReducer,
+    initialFiles
+  );
 
   const navigate = useNavigate(); //To be used when form is successfully submitted
 
@@ -87,14 +108,34 @@ const HomeForm = () => {
     }
   };
 
+  const handleDocumentUpload = (e) => {
+    const file = e.target.files[0];
+    const id = e.target.id;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      const base64File = reader.result.split(",")[1];
+
+      //Update the state
+      documentDispatch({ type: "UPDATE_FIELDS", id: id, payload: base64File });
+    };
+  };
+
   const handleFieldChange = (e) => {
     const { id, value } = e.target;
     dispatch({ type: "UPDATE_FIELDS", id: id, payload: value });
   };
 
+  const handleTermChange = (value) => {
+    dispatch({ type: "UPDATE_FIELDS", id: "term", payload: value });
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
     console.log(form);
+    //console.log(documents);
   };
 
   const resetFields = () => {
@@ -171,19 +212,22 @@ const HomeForm = () => {
               onChange={handleFieldChange}
             />
           </div>
+
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="terms_of_application">
-              5. Terms of Application. *Tick where applicable*
-            </Label>
-            {terms.map((term, index) => (
-              <div key={index} className="items-top flex space-x-2">
-                <Checkbox id={term.id} />
-                <div className="grid gap-1.5 leading-none">
-                  <p className="text-sm text-muted-foreground">{term.type}</p>
+            <Label htmlFor="term">5. Term of Applicaiton</Label>
+            <RadioGroup
+              defaultValue={terms[0].type}
+              onValueChange={handleTermChange}
+            >
+              {terms.map((term, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <RadioGroupItem value={term.value} id={term.id} />
+                  <Label htmlFor="term">{term.type}</Label>
                 </div>
-              </div>
-            ))}
+              ))}
+            </RadioGroup>
           </div>
+
           <h1 className="font-bold text-xl mt-5 md:mt-8 md:col-span-2">
             Contact Person
           </h1>
@@ -349,7 +393,7 @@ const HomeForm = () => {
             Drawing Point Details
           </h1>
           <div className="grid w-full gap-1.5">
-            <Label htmlFor="name_of_users">20. Name of users</Label>
+            <Label htmlFor="name_of_users">20. Names of users</Label>
             <Textarea
               placeholder=""
               id="name_of_users"
@@ -440,26 +484,26 @@ const HomeForm = () => {
           </h1>
 
           <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="zra_certificate_file_upload">
-              27. ZRA Tax Clearance certificate
-            </Label>
+            <Label htmlFor="ZRA">27. ZRA Tax Clearance certificate</Label>
             <input
               className="mt-6 block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
               aria-describedby="file_input_help"
-              id="zra_tax_certificate"
+              id="ZRA"
               type="file"
+              onChange={handleDocumentUpload}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="zra_certificate_file_upload">
+            <Label htmlFor="fundsDeclaration">
               28. declaration of funds to support financial variability,
               accompanied by proof of fund or latest accounts where applicable
             </Label>
             <input
               className="block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
               aria-describedby="file_input_help"
-              id="declaration_of_funds"
+              id="fundsDeclaration"
               type="file"
+              onChange={handleDocumentUpload}
             />
           </div>
 
@@ -484,14 +528,13 @@ const HomeForm = () => {
             ))}
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="zra_certificate_file_upload">
-              Upload signature
-            </Label>
+            <Label htmlFor="signature">Upload signature</Label>
             <input
               className="block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
               aria-describedby="file_input_help"
-              id="file_input"
+              id="signature"
               type="file"
+              onChange={handleDocumentUpload}
             />
           </div>
 
