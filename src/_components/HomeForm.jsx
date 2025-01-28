@@ -9,6 +9,9 @@ import axiosInstance from "@/api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
+import details from "./FieldDetails";
+import textAreaDetails from "./AreaDetails";
+import CustomInput from "./CustomInput";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -256,16 +259,11 @@ const HomeForm = () => {
           <h1 className="font-bold font-raleway text-xl mt-5 md:mt-8 md:col-span-2">
             Details of the Applicant{" "}
           </h1>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="name">1. Applicant name</Label>
-            <Input
-              type="text"
-              id="name"
-              placeholder=""
-              value={form.name}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            value={form.name}
+            handleFieldChange={handleFieldChange}
+            details={details[0]}
+          />
           <div className="grid w-full gap-1.5">
             <Label htmlFor="address">2. Physical Address</Label>
             <Textarea
@@ -275,26 +273,16 @@ const HomeForm = () => {
               onChange={handleFieldChange}
             />
           </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="telephone">3. Telephone Number</Label>
-            <Input
-              type="number"
-              id="telephone"
-              placeholder=""
-              value={form.telephone}
-              onChange={handleFieldChange}
-            />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="email">4. Email address</Label>
-            <Input
-              type="email"
-              id="email"
-              placeholder=""
-              value={form.email}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            value={form.telephone}
+            handleFieldChange={handleFieldChange}
+            details={details[1]}
+          />
+          <CustomInput
+            value={form.email}
+            handleFieldChange={handleFieldChange}
+            details={details[2]}
+          />
 
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="term">5. Term of Applicaiton</Label>
@@ -314,26 +302,16 @@ const HomeForm = () => {
           <h1 className="font-bold text-xl mt-5 md:mt-8 md:col-span-2">
             Contact Person
           </h1>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="contact_name">6. Full name</Label>
-            <Input
-              type="text"
-              id="contact_name"
-              placeholder=""
-              value={form.contact_name}
-              onChange={handleFieldChange}
-            />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="contact_title">7. Title</Label>
-            <Input
-              type="text"
-              id="contact_title"
-              placeholder=""
-              value={form.contact_title}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            value={form.contact_name}
+            handleFieldChange={handleFieldChange}
+            details={details[3]}
+          />
+          <CustomInput
+            value={form.contact_title}
+            details={details[4]}
+            handleFieldChange={handleFieldChange}
+          />
           <div className="grid w-full gap-1.5">
             <Label htmlFor="contact_address">8. Physical Address</Label>
             <Textarea
@@ -343,16 +321,11 @@ const HomeForm = () => {
               id="contact_address"
             />
           </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="cellphone">9. Cellphone Number</Label>
-            <Input
-              type="number"
-              id="cellphone"
-              placeholder=""
-              value={form.cellphone}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            value={form.cellphone}
+            details={details[5]}
+            handleFieldChange={handleFieldChange}
+          />
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="contact_email">10. Email address</Label>
             <Input
