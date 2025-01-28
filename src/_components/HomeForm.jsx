@@ -119,7 +119,7 @@ const HomeForm = () => {
   const handleCaptcha = (value) => {
     if (value) {
       setIsVerified(true);
-      console.log(value);
+      //console.log(value);
     } else {
       setIsVerified(false);
     }
@@ -210,7 +210,7 @@ const HomeForm = () => {
 
     //Database Post
     try {
-      const response = axiosInstance.post(
+      const response = await axiosInstance.post(
         "/open-access/api/v1/application",
         applicationBody
       );
