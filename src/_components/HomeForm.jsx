@@ -12,6 +12,7 @@ import acks from "@/form_constants/Acks";
 import details from "./FieldDetails";
 import textAreaDetails from "./AreaDetails";
 import CustomInput from "./CustomInput";
+import CustomTextArea from "./CustomTextArea";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -143,8 +144,8 @@ const HomeForm = () => {
     };
   };
 
-  const handleFieldChange = (e) => {
-    const { id, value } = e.target;
+  const handleFieldChange = (args) => {
+    const { id, value } = args;
     dispatch({ type: "UPDATE_FIELDS", id: id, payload: value });
   };
 
@@ -264,15 +265,11 @@ const HomeForm = () => {
             handleFieldChange={handleFieldChange}
             details={details[0]}
           />
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="address">2. Physical Address</Label>
-            <Textarea
-              placeholder="Type your address here."
-              id="address"
-              value={form.address}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomTextArea
+            value={form.address}
+            details={textAreaDetails[0]}
+            handleFieldChange={handleFieldChange}
+          />
           <CustomInput
             value={form.telephone}
             handleFieldChange={handleFieldChange}
@@ -326,16 +323,11 @@ const HomeForm = () => {
             details={details[5]}
             handleFieldChange={handleFieldChange}
           />
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="contact_email">10. Email address</Label>
-            <Input
-              type="email"
-              id="contact_email"
-              placeholder=""
-              value={form.contact_email}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            value={form.contact_email}
+            handleFieldChange={handleFieldChange}
+            details={details[6]}
+          />
 
           <div className="grid w-full gap-1.5">
             <Label htmlFor="board_licenses">
@@ -354,38 +346,21 @@ const HomeForm = () => {
           <h1 className="font-bold text-xl mt-5 md:mt-8 md:col-span-2">
             Details of Capacity and Period
           </h1>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="capacity">12. Capacity applied for (MVA/MW)</Label>
-            <Input
-              type="number"
-              id="capacity"
-              placeholder=""
-              value={form.capacity}
-              onChange={handleFieldChange}
-            />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="demand">13. Average demand (MVA/MW)</Label>
-            <Input
-              type="number"
-              id="demand"
-              placeholder=""
-              value={form.demand}
-              onChange={handleFieldChange}
-            />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="system_period">
-              14. Period for which Use of System is applied for
-            </Label>
-            <Input
-              type="text"
-              id="system_period"
-              placeholder=""
-              value={form.system_period}
-              onChange={handleFieldChange}
-            />
-          </div>
+          <CustomInput
+            details={details[7]}
+            value={form.capacity}
+            handleFieldChange={handleFieldChange}
+          />
+          <CustomInput
+            details={details[8]}
+            value={form.deman}
+            handleFieldChange={handleFieldChange}
+          />
+          <CustomInput
+            value={form.system_period}
+            details={details[9]}
+            handleFieldChange={handleFieldChange}
+          />
           <h1 className="font-bold text-xl mt-5 md:mt-8 md:col-span-2">
             Injection Point Details
           </h1>
