@@ -4,10 +4,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { NRCPattern, namePattern, phoneNumberPattern } from "@/regex_constants";
+import { Plus, Trash2 } from "lucide-react";
 import axiosInstance from "@/api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
+import acks from "@/form_constants/Acks";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -16,12 +17,12 @@ const terms = [
   { id: "medium", type: "Medium-Term", value: 1 },
   { id: "long", type: "Long-Term", value: 2 },
 ];
-const acks = [
+/* const acks = [
   "a) I am duly authorized to make this declaration",
   "b) I am the designated person responsible for this application",
   "c) I have read and understood this form and all accompanying regulations related hereto and",
   "d) all information provide herein is to the best of my knowledge true and correct",
-];
+]; */
 
 const initialFiles = {
   ZRA: null,
@@ -59,7 +60,7 @@ const initialForm = {
 
   /* Drawing Point Details */
   names_of_users: "",
-  drawing_drawing_voltage: "",
+  drawing_voltage: "",
   drawing_capacity: "",
   drawing_short_circuit: "",
   drawing_substation_feeder: "",
@@ -94,11 +95,27 @@ const HomeForm = () => {
     documentReducer,
     initialFiles
   );
+  const [drawingUsernames, setDrawingUsernames] = useState([]);
+  const [currentDrawer, setCurrentDrawer] = useState("");
+
+  function addToDrawingUsernames() {
+    //Add an object {username: "John"} to the array
+    const newUsername = { userName: currentDrawer };
+    setDrawingUsernames((previous) => [...previous, newUsername]);
+    setCurrentDrawer("");
+  }
+
+  function removeFromDrawing(e) {
+    const userNameToRemove = e.target.id;
+    setDrawingUsernames((previous) =>
+      previous.filter((user) => user.userName !== userNameToRemove)
+    );
+  }
 
   const navigate = useNavigate(); //To be used when form is successfully submitted
 
   //Captcha security
-  const [isVerified, setIsVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
   const handleCaptcha = (value) => {
     if (value) {
       setIsVerified(true);
@@ -132,10 +149,76 @@ const HomeForm = () => {
     dispatch({ type: "UPDATE_FIELDS", id: "term", payload: value });
   };
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    console.log(form);
-    //console.log(documents);
+    /* console.log(form);
+    console.log(drawingUsernames); */
+
+    const applicationBody = {
+      applicant: {
+        fullName: form.name,
+        physicalAddress: form.address,
+        cellPhoneNumber: form.telephone,
+        emailAddress: form.email,
+      },
+      term: form.term,
+      energyRegulationLicenseDetails: form.board_licenses,
+      capacityAppliedFor: form.capacity,
+      averageDemand: form.demand,
+      periodOfUse: form.system_period,
+      contactPerson: {
+        fullName: form.contact_name,
+        title: form.contact_title,
+        physicalAddress: form.contact_address,
+        cellPhoneNumber: form.cellphone,
+        emailAddress: form.contact_email,
+      },
+      declaration: {
+        declarantFullName: form.name,
+        declarantTitle: form.contact_title,
+        signedAt: "string",
+        signedOn: new Date().toISOString(),
+      },
+      injectionPoints: [
+        {
+          utilityName: form.utility,
+          voltageLevel: form.voltage,
+          capacityRequired: form.connection_capacity,
+          shortCircuitLevel: form.short_circuit,
+          substationFeederName: form.substation_feeder,
+        },
+      ],
+      drawingPoints: [
+        {
+          voltage: form.drawing_voltage,
+          capacityRequired: form.drawing_capacity,
+          shortCircuitLevel: form.drawing_short_circuit,
+          substationFeederName: form.drawing_substation_feeder,
+          users: drawingUsernames,
+        },
+      ],
+      /* attachments: [
+        {
+          type: 0,
+          fileName: "string",
+          filePath: "string",
+        },
+      ], */
+    };
+
+    //console.log(applicationBody);
+
+    //Database Post
+    try {
+      const response = axiosInstance.post(
+        "/open-access/api/v1/application",
+        applicationBody
+      );
+      console.log("Application Successful");
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const resetFields = () => {
@@ -193,9 +276,9 @@ const HomeForm = () => {
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="telephone">3. Telephone Numbers</Label>
+            <Label htmlFor="telephone">3. Telephone Number</Label>
             <Input
-              type="text"
+              type="number"
               id="telephone"
               placeholder=""
               value={form.telephone}
@@ -263,7 +346,7 @@ const HomeForm = () => {
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="cellphone">9. Cellphone Number</Label>
             <Input
-              type="text"
+              type="number"
               id="cellphone"
               placeholder=""
               value={form.cellphone}
@@ -394,12 +477,55 @@ const HomeForm = () => {
           </h1>
           <div className="grid w-full gap-1.5">
             <Label htmlFor="name_of_users">20. Names of users</Label>
-            <Textarea
-              placeholder=""
-              id="name_of_users"
-              value={form.name_of_users}
-              onChange={handleFieldChange}
-            />
+            <div className="flex w-full space-x-2 justify-start items-start">
+              <Input
+                placeholder="Type username and click add"
+                id="name_of_users"
+                value={currentDrawer}
+                onChange={(e) => {
+                  setCurrentDrawer(e.target.value);
+                }}
+              />
+              <Button
+                type="button"
+                onClick={addToDrawingUsernames}
+                className="bg-cecOrange text-white rounded-full w-[40px] h-[40px] text-center hover:bg-[#8a5f00]"
+              >
+                <Plus size={15} />
+              </Button>
+            </div>
+            {/* Map each name entered */}
+
+            {drawingUsernames.map((user, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-2 w-[150px]"
+              >
+                <span className="truncate">{user?.userName}</span>
+                <Button
+                  type="button"
+                  id={user?.userName}
+                  onClick={removeFromDrawing}
+                  className="bg-cecOrange text-white rounded-full w-[30px] h-[30px] mt-1 text-center hover:bg-[#8a5f00]"
+                >
+                  <Trash2 size={15} />
+                </Button>
+              </div>
+            ))}
+
+            {/* <div className="flex gap-2 items-start">
+              <div className="w-[150px] border border-neutral-500 rounded-md px-2 py-2 text-center h-auto flex gap-2">
+                <p className="truncate text-xs">Lubasi Milupi</p>
+              </div>
+              <Button
+                type="button"
+                id="my_id"
+                onClick={removeFromDrawing}
+                className="bg-cecOrange text-white rounded-full w-[30px] h-[30px] mt-1 text-center hover:bg-[#8a5f00]"
+              >
+                <Trash2 size={15} />
+              </Button>
+            </div> */}
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="drawing_voltage">21. Voltage (kV)</Label>
