@@ -47,22 +47,22 @@ const initialForm = {
   board_licenses: "",
 
   /* Capacity and Period  */
-  capacity: "",
-  demand: "",
+  capacity: 0,
+  demand: 0,
   system_period: "",
 
   /* Injection Point Details  */
   utility: "",
-  voltage: "",
-  connection_capacity: "",
-  short_circuit: "",
+  voltage: 0,
+  connection_capacity: 0,
+  short_circuit: 0,
   substation_feeder: "",
 
   /* Drawing Point Details */
   names_of_users: "",
-  drawing_voltage: "",
-  drawing_capacity: "",
-  drawing_short_circuit: "",
+  drawing_voltage: 0,
+  drawing_capacity: 0,
+  drawing_short_circuit: 0,
   drawing_substation_feeder: "",
   drawing_system_connections: "",
 };
@@ -115,7 +115,7 @@ const HomeForm = () => {
   const navigate = useNavigate(); //To be used when form is successfully submitted
 
   //Captcha security
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(true);
   const handleCaptcha = (value) => {
     if (value) {
       setIsVerified(true);
@@ -163,8 +163,8 @@ const HomeForm = () => {
       },
       term: form.term,
       energyRegulationLicenseDetails: form.board_licenses,
-      capacityAppliedFor: form.capacity,
-      averageDemand: form.demand,
+      capacityAppliedFor: parseFloat(form.capacity),
+      averageDemand: parseFloat(form.demand),
       periodOfUse: form.system_period,
       contactPerson: {
         fullName: form.contact_name,
@@ -182,31 +182,31 @@ const HomeForm = () => {
       injectionPoints: [
         {
           utilityName: form.utility,
-          voltageLevel: form.voltage,
-          capacityRequired: form.connection_capacity,
-          shortCircuitLevel: form.short_circuit,
+          voltageLevel: parseFloat(form.voltage),
+          capacityRequired: parseFloat(form.connection_capacity),
+          shortCircuitLevel: parseFloat(form.short_circuit),
           substationFeederName: form.substation_feeder,
         },
       ],
       drawingPoints: [
         {
-          voltage: form.drawing_voltage,
-          capacityRequired: form.drawing_capacity,
-          shortCircuitLevel: form.drawing_short_circuit,
+          voltage: parseFloat(form.drawing_voltage),
+          capacityRequired: parseFloat(form.drawing_capacity),
+          shortCircuitLevel: parseFloat(form.drawing_short_circuit),
           substationFeederName: form.drawing_substation_feeder,
           users: drawingUsernames,
         },
       ],
-      /* attachments: [
+      attachments: [
         {
           type: 0,
           fileName: "string",
           filePath: "string",
         },
-      ], */
+      ],
     };
 
-    //console.log(applicationBody);
+    console.log(applicationBody);
 
     //Database Post
     try {
@@ -216,6 +216,7 @@ const HomeForm = () => {
       );
       console.log("Application Successful");
       console.log(response.data);
+      navigate(`/submit/${response.data?.result?.referenceNumber}`);
     } catch (error) {
       console.log(error);
     }

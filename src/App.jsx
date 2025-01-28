@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomeForm />} />
-          <Route path="/submit" element={<CompletionPage />} />
+          <Route path="/submit/:refNum" element={<CompletionPage />} />
         </Routes>
       </Router>
     </>

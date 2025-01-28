@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const CompletionPage = () => {
+  let refNum;
+  const path = window.location.pathname; // Get the full path'
+  const parts = path.split("/"); // Split by '/'
+  refNum = parts[parts.length - 1];
+
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -23,7 +28,7 @@ const CompletionPage = () => {
               id="access_code"
               type="text"
               className="col-span-6 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4"
-              value="12236765338"
+              value={refNum}
               disabled
               readOnly
             />
