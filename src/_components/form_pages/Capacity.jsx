@@ -50,7 +50,7 @@ const Capacity = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitting Capacity:", form);
-    navigate("/"); // Adjust the navigation as needed
+    navigate("/injection"); // Adjust the navigation as needed
   };
 
   return (

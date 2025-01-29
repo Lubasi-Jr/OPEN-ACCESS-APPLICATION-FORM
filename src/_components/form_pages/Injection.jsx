@@ -8,11 +8,14 @@ import FormHeader from "@/Helper Components/FormHeader";
 
 const initialState = [
   {
-    utility: "",
-    voltage: 0,
-    connection_capacity: 0,
-    short_circuit: 0,
-    substation_feeder: "",
+    utilityName: "",
+    voltageLevel: 0,
+    voltageLevelUnit: 0,
+    capacityRequired: 0,
+    capacityRequiredUnit: 0,
+    shortCircuitLevel: 0,
+    shortCircuitLevelUnit: 0,
+    substationFeederName: "",
   },
 ];
 
@@ -55,7 +58,7 @@ const Injection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitting Injection:", form);
-    //navigate("/"); // Adjust the navigation as needed
+    navigate("/drawing"); // Adjust the navigation as needed
   };
 
   return (
@@ -70,56 +73,58 @@ const Injection = () => {
 
           <h2 className="font-bold text-xl">Injection Point Details</h2>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="utility">15. Name of Utility</Label>
+            <Label htmlFor="utilityName">15. Name of Utility</Label>
             <Input
               type="text"
-              id="utility"
+              id="utilityName"
               placeholder=""
-              value={form[0].utility}
+              value={form[0].utilityName}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="voltage">16. Voltage level (kV)</Label>
+            <Label htmlFor="voltageLevel">16. Voltage level (kV)</Label>
             <Input
               type="number"
-              id="voltage"
+              id="voltageLevel"
               placeholder=""
-              value={form[0].voltage}
+              value={form[0].voltageLevel}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="connection_capacity">
+            <Label htmlFor="capacityRequired">
               17. Capacity of Connection required (MVA)
             </Label>
             <Input
               type="number"
-              id="connection_capacity"
+              id="capacityRequired"
               placeholder=""
-              value={form[0].connection_capacity}
+              value={form[0].capacityRequired}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="short_circuit">18. Short circuit level (MVA)</Label>
+            <Label htmlFor="shortCircuitLevel">
+              18. Short circuit level (MVA)
+            </Label>
             <Input
               type="number"
-              id="short_circuit"
+              id="shortCircuitLevel"
               placeholder=""
-              value={form[0].short_circuit}
+              value={form[0].shortCircuitLevel}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="substation_feeder">
+            <Label htmlFor="substationFeederName">
               19. Name of Substation and Feeder
             </Label>
             <Input
               type="text"
-              id="substation_feeder"
+              id="substationFeederName"
               placeholder=""
-              value={form[0].substation_feeder}
+              value={form[0].substationFeederName}
               onChange={handleFieldChange}
             />
           </div>

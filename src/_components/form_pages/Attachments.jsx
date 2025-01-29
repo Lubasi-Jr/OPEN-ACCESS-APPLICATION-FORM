@@ -67,6 +67,7 @@ const Attachments = () => {
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Submitting Attachments", documents);
+    navigate("/declaration");
   }
 
   return (

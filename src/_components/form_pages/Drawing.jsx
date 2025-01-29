@@ -9,10 +9,13 @@ import FormHeader from "@/Helper Components/FormHeader";
 
 const initialState = [
   {
-    drawing_voltage: 0,
-    drawing_capacity: 0,
-    drawing_short_circuit: 0,
-    drawing_substation_feeder: "",
+    voltage: 0,
+    voltageUnit: 0,
+    capacityRequired: 0,
+    capacityRequiredUnit: 0,
+    shortCircuitLevel: 0,
+    shortCircuitLevelUnit: 0,
+    substationFeederName: "",
   },
 ];
 
@@ -41,16 +44,16 @@ const Drawing = () => {
   const [form, dispatch] = useReducer(reducer, storedData);
 
   // Extract names_of_users from storedData or set default
-  const [namesOfUsers, setNamesOfUsers] = useState(
-    storedData[0]?.names_of_users || [{ userName: "" }]
+  const [users, setNamesOfUsers] = useState(
+    storedData[0]?.users || [{ userName: "" }]
   );
 
   useEffect(() => {
     const updatedForm = form.map((item, index) =>
-      index === 0 ? { ...item, names_of_users: namesOfUsers } : item
+      index === 0 ? { ...item, users: users } : item
     );
     sessionStorage.setItem("drawingDetails", JSON.stringify(updatedForm));
-  }, [form, namesOfUsers]);
+  }, [form, users]);
 
   const handleFieldChange = (e) => {
     dispatch({
@@ -61,36 +64,36 @@ const Drawing = () => {
   };
 
   const handleNamesOfUsersChange = (index, value) => {
-    const updatedNames = [...namesOfUsers];
+    const updatedNames = [...users];
     updatedNames[index].userName = value;
     setNamesOfUsers(updatedNames);
 
     // Ensure the form state also includes updated namesOfUsers
     dispatch({
       type: "UPDATE_FIELDS",
-      id: "names_of_users",
+      id: "users",
       payload: updatedNames,
     });
   };
 
   const handleAddUser = () => {
-    const updatedNames = [...namesOfUsers, { userName: "" }];
+    const updatedNames = [...users, { userName: "" }];
     setNamesOfUsers(updatedNames);
 
     dispatch({
       type: "UPDATE_FIELDS",
-      id: "names_of_users",
+      id: "users",
       payload: updatedNames,
     });
   };
 
   const handleRemoveUser = (index) => {
-    const updatedNames = namesOfUsers.filter((_, i) => i !== index);
+    const updatedNames = users.filter((_, i) => i !== index);
     setNamesOfUsers(updatedNames);
 
     dispatch({
       type: "UPDATE_FIELDS",
-      id: "names_of_users",
+      id: "users",
       payload: updatedNames,
     });
   };
@@ -100,11 +103,12 @@ const Drawing = () => {
 
     // Merge names_of_users into the form state
     const updatedForm = form.map((item, index) =>
-      index === 0 ? { ...item, names_of_users: namesOfUsers } : item
+      index === 0 ? { ...item, users: users } : item
     );
 
     console.log("Submitting Drawing Details:", updatedForm);
     // Add your submission logic here (e.g., API call, navigation, etc.)
+    navigate("/attachments");
   };
 
   return (
@@ -115,7 +119,7 @@ const Drawing = () => {
           <h2 className="font-bold text-xl">Drawing Details</h2>
 
           {/* Names of Users */}
-          {namesOfUsers.map((user, index) => (
+          {users.map((user, index) => (
             <div
               key={index}
               className="grid w-full max-w-sm items-center gap-1.5"
@@ -133,7 +137,7 @@ const Drawing = () => {
                     handleNamesOfUsersChange(index, e.target.value)
                   }
                 />
-                {namesOfUsers.length > 1 && (
+                {users.length > 1 && (
                   <Button
                     type="button"
                     className="bg-red-500 text-white hover:bg-red-600"
@@ -155,48 +159,46 @@ const Drawing = () => {
 
           {/* Other Fields */}
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="drawing_voltage">Voltage Level (kV)</Label>
+            <Label htmlFor="voltage">Voltage Level (kV)</Label>
             <Input
               type="number"
-              id="drawing_voltage"
+              id="voltage"
               placeholder=""
-              value={form[0].drawing_voltage}
+              value={form[0].voltage}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="drawing_capacity">
+            <Label htmlFor="capacityRequired">
               Capacity of Connection Required (MVA)
             </Label>
             <Input
               type="number"
-              id="drawing_capacity"
+              id="capacityRequired"
               placeholder=""
-              value={form[0].drawing_capacity}
+              value={form[0].capacityRequired}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="drawing_short_circuit">
-              Short Circuit Level (MVA)
-            </Label>
+            <Label htmlFor="shortCircuitLevel">Short Circuit Level (MVA)</Label>
             <Input
               type="number"
-              id="drawing_short_circuit"
+              id="shortCircuitLevel"
               placeholder=""
-              value={form[0].drawing_short_circuit}
+              value={form[0].shortCircuitLevel}
               onChange={handleFieldChange}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="drawing_substation_feeder">
+            <Label htmlFor="substationFeederName">
               Name of Substation and Feeder
             </Label>
             <Input
               type="text"
-              id="drawing_substation_feeder"
+              id="substationFeederName"
               placeholder=""
-              value={form[0].drawing_substation_feeder}
+              value={form[0].substationFeederName}
               onChange={handleFieldChange}
             />
           </div>

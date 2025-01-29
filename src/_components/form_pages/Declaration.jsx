@@ -11,8 +11,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
 
 const Declaration = () => {
-  //const [name, setName] = useState("");
+  //Use States for all the session storage items
   const [applicantDetails, setApplicantDetails] = useState();
+  const [capacity, setCapacity] = useState();
+  const [injection, setInjection] = useState();
+  const [drawing, setDrawing] = useState();
+  const [attachments, setAttachments] = useState();
+
   const [isLoading, setLoading] = useState(true);
   const [isVerified, setIsVerified] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
@@ -24,6 +29,10 @@ const Declaration = () => {
     setApplicantDetails(
       JSON.parse(sessionStorage.getItem("applicantDetails")) || {}
     );
+    setCapacity(JSON.parse(sessionStorage.getItem("capacityDetails")) || {});
+    setInjection(JSON.parse(sessionStorage.getItem("injectionDetails")) || {});
+    setDrawing(JSON.parse(sessionStorage.getItem("drawingDetails")) || {});
+    setAttachments(JSON.parse(sessionStorage.getItem("attachments")) || {}); //attachments
 
     setTimeout(() => setLoading(false), 2000);
   }, []);
@@ -53,6 +62,41 @@ const Declaration = () => {
 
     // If all validations pass, proceed with submission
     console.log("Proceed to submit form");
+
+    const applicationBody = {
+      applicant: {
+        fullName: applicantDetails?.name,
+        physicalAddress: applicantDetails?.address,
+        cellPhoneNumber: applicantDetails?.telephone,
+        emailAddress: applicantDetails?.email,
+      },
+      term: applicantDetails?.term,
+      energyRegulationLicenseDetails: applicantDetails.board_licenses,
+      capacityAppliedFor: parseFloat(capacity?.capacity),
+      capacityAppliedForUnit: capacity?.capacityType,
+      averageDemand: parseFloat(capacity?.demand),
+      averageDemandUnit: capacity?.demandType,
+      periodOfUse: capacity?.system_period,
+      approvalStatus: 0,
+      contactPerson: {
+        fullName: applicantDetails?.contact_name,
+        title: applicantDetails?.contact_title,
+        physicalAddress: applicantDetails?.contact_address,
+        cellPhoneNumber: applicantDetails?.cellphone,
+        emailAddress: applicantDetails?.contact_email,
+      },
+      declaration: {
+        declarantFullName: applicantDetails?.contact_name,
+        declarantTitle: applicantDetails?.contact_title,
+        signedAt: "string",
+        signedOn: new Date().toISOString(),
+      },
+      injectionPoints: injection,
+      drawingPoints: drawing,
+      attachments: attachments,
+    };
+
+    console.log(applicationBody);
   }
 
   return (
