@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BackButton from "@/Helper Components/BackButton";
+import FormHeader from "@/Helper Components/FormHeader";
 
 const initialFiles = [];
 
@@ -71,16 +72,7 @@ const Attachments = () => {
   return (
     <div className="w-full px-20 py-20 bg-cecOrange h-full">
       <div className="font-oxygen w-full md:w-4/5 bg-white rounded-md px-10 py-10 mx-auto">
-        <div className="flex gap-12 items-start justify-start w-auto mb-0">
-          <img
-            src="cec-OG-logo-transparent.png"
-            alt="CEC Logo"
-            height={100}
-            width={100}
-          />
-          <h1 className="font-bold text-3xl">APPLICATION FOR OPEN ACCESS</h1>
-        </div>
-
+        <FormHeader />
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Link to="/search" className="text-sm underline text-cecOrange">
             Already have an access code? Click here to view your application
