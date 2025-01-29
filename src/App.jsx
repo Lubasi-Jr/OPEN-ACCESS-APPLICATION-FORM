@@ -6,6 +6,7 @@ import CompletionPage from "./_components/CompletionPage";
 import ApplicationSearch from "./_components/ApplicationSearch";
 import StatusPage from "./_components/StatusPage";
 import Capacity from "./_components/form_pages/Capacity";
+import Attachments from "./_components/form_pages/Attachments";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeForm />} />
           <Route path="/capacity" element={<Capacity />} />
+          <Route path="/attachments" element={<Attachments />} />
 
           <Route path="/submit/:refNum" element={<CompletionPage />} />
           <Route path="/status/:refNum" element={<StatusPage />} />
