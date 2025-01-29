@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import { Checkbox } from "@/components/ui/checkbox";
 import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
+import axiosInstance from "@/api/axiosInstance";
 
 const Declaration = () => {
   //Use States for all the session storage items
@@ -96,7 +97,20 @@ const Declaration = () => {
       attachments: attachments,
     };
 
-    console.log(applicationBody);
+    //console.log(applicationBody);
+
+    //Database Post
+    try {
+      const response = await axiosInstance.post(
+        "/open-access/api/v1/application",
+        applicationBody
+      );
+      console.log("Application Successful");
+      console.log(response.data);
+      //navigate(`/submit/${response.data?.result?.referenceNumber}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
