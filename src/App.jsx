@@ -5,6 +5,7 @@ import HomeForm from "./_components/HomeForm";
 import CompletionPage from "./_components/CompletionPage";
 import ApplicationSearch from "./_components/ApplicationSearch";
 import StatusPage from "./_components/StatusPage";
+import Capacity from "./_components/form_pages/Capacity";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomeForm />} />
+          <Route path="/capacity" element={<Capacity />} />
+
           <Route path="/submit/:refNum" element={<CompletionPage />} />
           <Route path="/status/:refNum" element={<StatusPage />} />
           <Route path="/search" element={<ApplicationSearch />} />
