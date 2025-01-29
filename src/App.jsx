@@ -9,6 +9,7 @@ import Capacity from "./_components/form_pages/Capacity";
 import Attachments from "./_components/form_pages/Attachments";
 import Declaration from "./_components/form_pages/Declaration";
 import Injection from "./_components/form_pages/Injection";
+import Drawing from "./_components/form_pages/Drawing";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/attachments" element={<Attachments />} />
           <Route path="/declaration" element={<Declaration />} />
           <Route path="/injection" element={<Injection />} />
+          <Route path="/drawing" element={<Drawing />} />
 
           <Route path="/submit/:refNum" element={<CompletionPage />} />
           <Route path="/status/:refNum" element={<StatusPage />} />
