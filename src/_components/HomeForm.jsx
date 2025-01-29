@@ -6,10 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Trash2 } from "lucide-react";
 import axiosInstance from "@/api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
-
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const terms = [
@@ -24,11 +23,7 @@ const terms = [
   "d) all information provide herein is to the best of my knowledge true and correct",
 ]; */
 
-const initialFiles = {
-  ZRA: null,
-  fundsDeclaration: null,
-  signature: null,
-};
+const initialFiles = [];
 
 const initialForm = {
   /* Details of Applicant */
@@ -80,8 +75,11 @@ const reducer = (state, action) => {
 
 const documentReducer = (state, action) => {
   switch (action.type) {
-    case "UPDATE_FIELDS":
-      return { ...state, [action.id]: action.payload };
+    case "ADD_DOCUMENT":
+      return [
+        ...state.filter((doc) => doc.type !== action.payload.type), // Replace if same type exists
+        action.payload,
+      ];
     case "RESET_FIELDS":
       return initialFiles;
     default:
@@ -90,11 +88,13 @@ const documentReducer = (state, action) => {
 };
 
 const HomeForm = () => {
-  const [form, dispatch] = useReducer(reducer, initialForm);
+  const [form, dispatch] = useReducer(reducer, initialForm); // useReducer state for the form
+
   const [documents, documentDispatch] = useReducer(
     documentReducer,
     initialFiles
-  );
+  ); // useReducer for documents
+
   const [drawingUsernames, setDrawingUsernames] = useState([]);
   const [currentDrawer, setCurrentDrawer] = useState("");
 
@@ -127,16 +127,23 @@ const HomeForm = () => {
 
   const handleDocumentUpload = (e) => {
     const file = e.target.files[0];
-    const id = e.target.id;
+    if (!file) return;
+
+    const id = e.target.id; // This will be "taxCertificate" or "proofOfFunds"
+    const type = id === "taxCertificate" ? 0 : 1; // Assign type based on input
+    const fileName = file.name;
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      const base64File = reader.result.split(",")[1];
+      const filePath = reader.result; // Base64 or URL
 
-      //Update the state
-      documentDispatch({ type: "UPDATE_FIELDS", id: id, payload: base64File });
+      // Dispatch new document
+      documentDispatch({
+        type: "ADD_DOCUMENT",
+        payload: { type, fileName, filePath },
+      });
     };
   };
 
@@ -197,13 +204,7 @@ const HomeForm = () => {
           users: drawingUsernames,
         },
       ],
-      attachments: [
-        {
-          type: 0,
-          fileName: "string",
-          filePath: "string",
-        },
-      ],
+      attachments: documents,
     };
 
     console.log(applicationBody);
@@ -246,19 +247,19 @@ const HomeForm = () => {
           onSubmit={handleClick}
           className="grid w-full grid-cols-1 md:grid-cols-2 px-5 py-5 gap-4"
         >
-          <a
-            href="#"
+          <Link
+            to={"/search"}
             className="font-light text-sm underline text-cecOrange mt-5 md:mt-8 md:col-span-2"
           >
             Already have an access code? Click here to view your application
             status
-          </a>
+          </Link>
 
           <h1 className="font-bold font-raleway text-xl mt-5 md:mt-8 md:col-span-2">
             Details of the Applicant{" "}
           </h1>
           <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="name">1. Applicant name</Label>
+            <Label htmlFor="name">1. Applicant name (Company name)</Label>
             <Input
               type="text"
               id="name"
@@ -513,20 +514,6 @@ const HomeForm = () => {
                 </Button>
               </div>
             ))}
-
-            {/* <div className="flex gap-2 items-start">
-              <div className="w-[150px] border border-neutral-500 rounded-md px-2 py-2 text-center h-auto flex gap-2">
-                <p className="truncate text-xs">Lubasi Milupi</p>
-              </div>
-              <Button
-                type="button"
-                id="my_id"
-                onClick={removeFromDrawing}
-                className="bg-cecOrange text-white rounded-full w-[30px] h-[30px] mt-1 text-center hover:bg-[#8a5f00]"
-              >
-                <Trash2 size={15} />
-              </Button>
-            </div> */}
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="drawing_voltage">21. Voltage (kV)</Label>
@@ -611,24 +598,26 @@ const HomeForm = () => {
           </h1>
 
           <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="ZRA">27. ZRA Tax Clearance certificate</Label>
+            <Label htmlFor="taxCertificate">
+              27. ZRA Tax Clearance certificate
+            </Label>
             <input
               className="mt-6 block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
               aria-describedby="file_input_help"
-              id="ZRA"
+              id="taxCertificate"
               type="file"
               onChange={handleDocumentUpload}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="fundsDeclaration">
+            <Label htmlFor="proofOfFunds">
               28. declaration of funds to support financial variability,
               accompanied by proof of fund or latest accounts where applicable
             </Label>
             <input
               className="block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
               aria-describedby="file_input_help"
-              id="fundsDeclaration"
+              id="proofOfFunds"
               type="file"
               onChange={handleDocumentUpload}
             />
@@ -644,6 +633,7 @@ const HomeForm = () => {
                 placeholder="fullname"
                 type="text"
                 className="bg-transparent border-b border-black focus:border-b focus:outline-none px-2 py-1"
+                value={form.contact_name}
               />
             </div>
             <p className="block">
@@ -653,16 +643,6 @@ const HomeForm = () => {
             {acks.map((ack, index) => (
               <p key={index}>{ack}</p>
             ))}
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5 ">
-            <Label htmlFor="signature">Upload signature</Label>
-            <input
-              className="block w-full text-sm text-gray-900 border border-black/35 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
-              aria-describedby="file_input_help"
-              id="signature"
-              type="file"
-              onChange={handleDocumentUpload}
-            />
           </div>
 
           <div className="flex items-center justify-center gap-2 mt-5 md:mt-8 md:col-span-2">
