@@ -643,6 +643,15 @@ const HomeForm = () => {
             {acks.map((ack, index) => (
               <p key={index}>{ack}</p>
             ))}
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Accept terms and conditions
+              </label>
+            </div>
           </div>
 
           <div className="flex items-center justify-center gap-2 mt-5 md:mt-8 md:col-span-2">

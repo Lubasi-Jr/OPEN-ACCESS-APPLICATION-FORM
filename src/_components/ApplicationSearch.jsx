@@ -28,6 +28,7 @@ const ApplicationSearch = () => {
       );
       console.log(response.data);
       console.log("Search successful");
+      navigate(`/status/${refNum}`);
     } catch (error) {
       console.log(error);
     }
