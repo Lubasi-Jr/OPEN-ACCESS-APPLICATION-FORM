@@ -21,7 +21,7 @@ const Declaration = () => {
   const [attachments, setAttachments] = useState();
 
   const [isLoading, setLoading] = useState(true);
-  const [isVerified, setIsVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");
 

@@ -11,6 +11,18 @@ import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import FormHeader from "@/Helper Components/FormHeader";
+import { toast } from "sonner";
+
+// Add validation functions
+const validateContactName = (name) => {
+  const regex = /^[A-Za-z\s'-]+$/;
+  return regex.test(name);
+};
+
+const validateEmail = (email) => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+};
 
 const terms = [
   { id: "short", type: "Short-Term", value: 0 },
@@ -70,6 +82,30 @@ const HomeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate fields
+    let isValid = true;
+
+    // Validate contact name
+    if (!validateContactName(form.contact_name)) {
+      toast.error("Contact name must not contain numbers");
+      isValid = false;
+    }
+
+    // Validate emails
+    if (!validateEmail(form.email)) {
+      toast.error("Invalid email format for applicant email");
+      isValid = false;
+    }
+
+    if (!validateEmail(form.contact_email)) {
+      toast.error("Invalid email format for contact email");
+      isValid = false;
+    }
+
+    // If validation fails, stop submission
+    if (!isValid) return;
+
     console.log("Submitting:", form);
     navigate("/capacity");
   };
@@ -125,6 +161,7 @@ const HomeForm = () => {
               id="email"
               value={form.email}
               onChange={handleFieldChange}
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
               required
             />
           </div>
@@ -153,6 +190,8 @@ const HomeForm = () => {
               id="contact_name"
               value={form.contact_name}
               onChange={handleFieldChange}
+              pattern="[A-Za-z\s'-]+"
+              title="Name should not contain numbers"
               required
             />
           </div>
@@ -196,6 +235,7 @@ const HomeForm = () => {
               id="contact_email"
               value={form.contact_email}
               onChange={handleFieldChange}
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
               required
             />
           </div>
