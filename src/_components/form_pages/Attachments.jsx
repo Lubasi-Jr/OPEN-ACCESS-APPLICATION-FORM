@@ -41,10 +41,10 @@ const Attachments = () => {
     if (!file) return;
 
     // Check if the file is a PDF
-    if (file.type !== "application/pdf") {
+    /* if (file.type !== "application/pdf") {
       alert("Only PDF documents are allowed.");
       return;
-    }
+    } */
 
     const id = e.target.id; // This will be "taxCertificate" or "proofOfFunds"
     const type = id === "taxCertificate" ? 0 : 1; // Assign type based on input

@@ -22,12 +22,21 @@ const ApplicationSearch = () => {
   };
 
   async function handleClick() {
+    console.log("Attempting to search for application");
+
     try {
       const response = await axiosInstance.get(
         `/open-access/api/v1/application/${refNum}`
       );
       console.log(response.data);
       console.log("Search successful");
+      //Store the application search data into the session storage. To avoid too many API calls
+      sessionStorage.setItem(
+        "currentApplication",
+        JSON.stringify(response.data)
+      );
+
+      //Navigate to the status page and receive the sessionStorage
       navigate(`/status/${refNum}`);
     } catch (error) {
       console.log(error);

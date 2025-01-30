@@ -24,6 +24,8 @@ const Declaration = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setLoading(true);
     //Get all the objects from the session
@@ -62,7 +64,7 @@ const Declaration = () => {
     }
 
     // If all validations pass, proceed with submission
-    console.log("Proceed to submit form");
+    console.log("Proceeding to submit form");
 
     const applicationBody = {
       applicant: {

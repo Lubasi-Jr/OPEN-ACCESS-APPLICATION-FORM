@@ -20,10 +20,15 @@ const StatusPage = () => {
     const parts = path.split("/"); // Split by '/'
     refNum = parts[parts.length - 1];
 
-    getApplication(refNum);
+    //getApplication(refNum);
+
+    //Obtain application from session storage. instead of making an API call
+    setApplication(
+      JSON.parse(sessionStorage.getItem("currentApplication")) || {}
+    );
   }, []);
 
-  async function getApplication(number) {
+  /* async function getApplication(number) {
     try {
       const response = await axiosInstance.get(
         `/open-access/api/v1/application/${number}`
@@ -33,7 +38,7 @@ const StatusPage = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  } */
 
   //application?.result?.approvalStatus;
 
