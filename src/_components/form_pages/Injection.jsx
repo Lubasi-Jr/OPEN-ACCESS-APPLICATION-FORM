@@ -32,6 +32,9 @@ const reducer = (state, action) => {
     case "ADD_INJECTION":
       return [...state, { ...templateInjection }];
 
+    case "DELETE_INJECTION":
+      return state.filter((_, index) => index !== action.index);
+
     case "RESET_FIELDS":
       return initialState;
 
@@ -64,10 +67,14 @@ const Injection = () => {
     dispatch({ type: "ADD_INJECTION" });
   };
 
+  const handleDeleteInjection = (index) => {
+    dispatch({ type: "DELETE_INJECTION", index });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitting Injections:", form);
-    //navigate("/drawing");
+    navigate("/drawing");
   };
 
   return (
@@ -84,9 +91,19 @@ const Injection = () => {
 
           {form.map((injection, index) => (
             <div key={index} className="border-b pb-4 mb-4 flex flex-col gap-3">
-              <h3 className="font-semibold mb-2">
-                Injection Point #{index + 1}
-              </h3>
+              <div className="flex justify-between items-center">
+                <h3 className="font-semibold mb-2">
+                  Injection Point #{index + 1}
+                </h3>
+                <Button
+                  type="button"
+                  onClick={() => handleDeleteInjection(index)}
+                  className="bg-red-500 text-white hover:bg-red-600"
+                  disabled={form.length === 1} // Prevent deleting the last item
+                >
+                  Delete
+                </Button>
+              </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor={`utilityName-${index}`}>
                   15. Name of Utility
