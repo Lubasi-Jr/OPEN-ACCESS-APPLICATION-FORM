@@ -46,19 +46,11 @@ const ApplicationSearch = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast(
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-xl font-oxygen p-5 min-w-[300px]">
-            Invalid Reference Number.
-          </p>
-          <p className="text-neutral-500 text-base">
-            Or Server Side Error. Try again later
-          </p>
-        </div>,
-        {
-          className: "text-xl font-oxygen p-5 min-w-[300px]",
-        }
-      );
+      if (error?.code == "ERR_BAD_REQUEST") {
+        toast.error("This Reference Number does not exist");
+      } else {
+        toast.error("A server side error occured. Please try again later");
+      }
     }
   }
 
