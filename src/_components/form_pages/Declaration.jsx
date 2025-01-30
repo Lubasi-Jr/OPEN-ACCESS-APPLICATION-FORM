@@ -97,7 +97,7 @@ const Declaration = () => {
       attachments: attachments,
     };
 
-    //console.log(applicationBody);
+    console.log(applicationBody);
 
     //Database Post
     try {
@@ -107,7 +107,7 @@ const Declaration = () => {
       );
       console.log("Application Successful");
       console.log(response.data);
-      //navigate(`/submit/${response.data?.result?.referenceNumber}`);
+      navigate(`/submit/${response.data?.result?.referenceNumber}`);
     } catch (error) {
       console.log(error);
     }
