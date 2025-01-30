@@ -31,7 +31,9 @@ const CompletionPage = () => {
           <ClipLoader loading={isLoading} size={150} color="#AD7900" />
         ) : (
           <>
-            <h2 className="text-3xl whitespace-wrap">Submission Completed!!</h2>
+            <h2 className="lg:text-3xl text-2xl whitespace-wrap text-center">
+              Submission Completed!!
+            </h2>
             <h2 className="text-2xl whitespace-wrap">REFERENCE NUMBER:</h2>
 
             <div className="w-full max-w-[16rem]">

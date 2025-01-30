@@ -46,11 +46,13 @@ const StatusPage = () => {
     <>
       <div className="w-full px-20 py-20 bg-cecOrange h-screen">
         <div className="z-10 w-full md:w-4/5 bg-white rounded-md h-full px-10 py-10 mx-auto flex flex-col items-center justify-center gap-2">
-          <div className="text-3xl font-oxygen">{applicationNumber}</div>
+          <div className="lg:text-3xl text-lg font-oxygen">
+            {applicationNumber}
+          </div>
           <div className=" text-xl font-oxygen">
             {application?.result?.applicant?.fullName}
           </div>
-          <div className="text-4xl font-oxygen mb-12">
+          <div className="lg:text-4xl text-xl font-oxygen mb-12">
             {`STATUS:   `}{" "}
             <span className={colors[application?.result?.approvalStatus]}>
               {cases[application?.result?.approvalStatus]}

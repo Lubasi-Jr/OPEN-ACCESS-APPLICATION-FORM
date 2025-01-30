@@ -62,7 +62,7 @@ const ApplicationSearch = () => {
             <ClipLoader size={150} color="#AD7900" loading={loading} />
           ) : (
             <>
-              <h2 className="text-3xl whitespace-wrap">
+              <h2 className="lg:text-3xl text-xl whitespace-wrap">
                 Enter Reference Number below to check for application status
               </h2>
               <Input
