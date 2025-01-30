@@ -129,7 +129,7 @@ const Attachments = () => {
               Reset
             </Button>
           </div>
-          <BackButton backTo={"/"} />
+          <BackButton backTo={"/drawing"} />
         </form>
       </div>
     </div>

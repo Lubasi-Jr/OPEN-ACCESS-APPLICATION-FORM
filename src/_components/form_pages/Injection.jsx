@@ -191,7 +191,7 @@ const Injection = () => {
               Reset
             </Button>
           </div>
-          <BackButton backTo={"/"} />
+          <BackButton backTo={"/capacity"} />
         </form>
       </div>
     </div>

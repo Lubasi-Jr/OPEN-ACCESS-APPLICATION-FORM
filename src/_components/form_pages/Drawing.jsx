@@ -264,7 +264,7 @@ const Drawing = () => {
               Reset
             </Button>
           </div>
-          <BackButton backTo={"/"} />
+          <BackButton backTo={"/injection"} />
         </form>
       </div>
     </div>

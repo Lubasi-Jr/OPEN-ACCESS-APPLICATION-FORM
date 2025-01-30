@@ -195,7 +195,7 @@ const Declaration = () => {
                 />
               )}
             </div>
-            <BackButton backTo={"/"} />
+            <BackButton backTo={"/attachments"} />
           </form>
         )}
       </div>
