@@ -114,6 +114,7 @@ const Injection = () => {
                   id={`utilityName-${index}`}
                   value={injection.utilityName}
                   onChange={(e) => handleFieldChange(e, index)}
+                  required
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -126,6 +127,7 @@ const Injection = () => {
                   id={`voltageLevel-${index}`}
                   value={injection.voltageLevel}
                   onChange={(e) => handleFieldChange(e, index)}
+                  required
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -138,6 +140,7 @@ const Injection = () => {
                   id={`capacityRequired-${index}`}
                   value={injection.capacityRequired}
                   onChange={(e) => handleFieldChange(e, index)}
+                  required
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -150,6 +153,7 @@ const Injection = () => {
                   id={`shortCircuitLevel-${index}`}
                   value={injection.shortCircuitLevel}
                   onChange={(e) => handleFieldChange(e, index)}
+                  required
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -162,6 +166,7 @@ const Injection = () => {
                   id={`substationFeederName-${index}`}
                   value={injection.substationFeederName}
                   onChange={(e) => handleFieldChange(e, index)}
+                  required
                 />
               </div>
             </div>

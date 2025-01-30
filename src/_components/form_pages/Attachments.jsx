@@ -97,6 +97,7 @@ const Attachments = () => {
               id="taxCertificate"
               type="file"
               onChange={handleDocumentUpload}
+              required
             />
           </div>
 
@@ -111,6 +112,7 @@ const Attachments = () => {
               id="proofOfFunds"
               type="file"
               onChange={handleDocumentUpload}
+              required
             />
           </div>
 

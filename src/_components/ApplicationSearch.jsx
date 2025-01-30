@@ -46,9 +46,19 @@ const ApplicationSearch = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast("A server side error occured. Try again later", {
-        className: "text-xl font-oxygen p-5 min-w-[300px]",
-      });
+      toast(
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-xl font-oxygen p-5 min-w-[300px]">
+            Invalid Reference Number.
+          </p>
+          <p className="text-neutral-500 text-base">
+            Or Server Side Error. Try again later
+          </p>
+        </div>,
+        {
+          className: "text-xl font-oxygen p-5 min-w-[300px]",
+        }
+      );
     }
   }
 

@@ -154,6 +154,7 @@ const Drawing = () => {
                         id={`userName-${drawingIndex}-${userIndex}`}
                         placeholder="Enter user name"
                         value={user.userName}
+                        required
                         onChange={(e) =>
                           handleUserChange(
                             drawingIndex,
@@ -194,6 +195,7 @@ const Drawing = () => {
                   type="number"
                   id="voltage"
                   value={drawing.voltage}
+                  required
                   onChange={(e) => handleFieldChange(e, drawingIndex)}
                 />
               </div>
@@ -206,6 +208,7 @@ const Drawing = () => {
                   id="capacityRequired"
                   value={drawing.capacityRequired}
                   onChange={(e) => handleFieldChange(e, drawingIndex)}
+                  required
                 />
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5 mb-2">
@@ -216,6 +219,7 @@ const Drawing = () => {
                   type="number"
                   id="shortCircuitLevel"
                   value={drawing.shortCircuitLevel}
+                  required
                   onChange={(e) => handleFieldChange(e, drawingIndex)}
                 />
               </div>
@@ -228,6 +232,7 @@ const Drawing = () => {
                   id="substationFeederName"
                   value={drawing.substationFeederName}
                   onChange={(e) => handleFieldChange(e, drawingIndex)}
+                  required
                 />
               </div>
             </div>

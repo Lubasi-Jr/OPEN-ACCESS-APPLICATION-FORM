@@ -74,6 +74,7 @@ const Capacity = () => {
                 placeholder=""
                 value={form.capacity}
                 onChange={handleFieldChange}
+                required
               />
               <UnitsPicker type="capacity" dispatch={dispatch} />
             </div>
@@ -88,6 +89,7 @@ const Capacity = () => {
                 placeholder=""
                 value={form.demand}
                 onChange={handleFieldChange}
+                required
               />
               <UnitsPicker type="demand" dispatch={dispatch} />
             </div>
@@ -103,6 +105,7 @@ const Capacity = () => {
               placeholder=""
               value={form.system_period}
               onChange={handleFieldChange}
+              required
             />
           </div>
 

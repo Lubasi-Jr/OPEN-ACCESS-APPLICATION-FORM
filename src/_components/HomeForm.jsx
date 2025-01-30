@@ -93,6 +93,7 @@ const HomeForm = () => {
               id="name"
               value={form.name}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -102,6 +103,7 @@ const HomeForm = () => {
               id="address"
               value={form.address}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -112,6 +114,7 @@ const HomeForm = () => {
               id="telephone"
               value={form.telephone}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -122,6 +125,7 @@ const HomeForm = () => {
               id="email"
               value={form.email}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -149,6 +153,7 @@ const HomeForm = () => {
               id="contact_name"
               value={form.contact_name}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -159,6 +164,7 @@ const HomeForm = () => {
               id="contact_title"
               value={form.contact_title}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -168,6 +174,7 @@ const HomeForm = () => {
               id="contact_address"
               value={form.contact_address}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -178,6 +185,7 @@ const HomeForm = () => {
               id="cellphone"
               value={form.cellphone}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -188,6 +196,7 @@ const HomeForm = () => {
               id="contact_email"
               value={form.contact_email}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
@@ -200,6 +209,7 @@ const HomeForm = () => {
               id="board_licenses"
               value={form.board_licenses}
               onChange={handleFieldChange}
+              required
             />
           </div>
 
