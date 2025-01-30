@@ -10,10 +10,13 @@ import Attachments from "./_components/form_pages/Attachments";
 import Declaration from "./_components/form_pages/Declaration";
 import Injection from "./_components/form_pages/Injection";
 import Drawing from "./_components/form_pages/Drawing";
+import { Toaster } from "sonner";
+import ToasterTest from "./Helper Components/ToasterTest";
 
 function App() {
   return (
     <>
+      <Toaster richColors position="bottom-right" />
       <Router>
         <Routes>
           <Route path="/" element={<HomeForm />} />
@@ -26,6 +29,8 @@ function App() {
           <Route path="/submit/:refNum" element={<CompletionPage />} />
           <Route path="/status/:refNum" element={<StatusPage />} />
           <Route path="/search" element={<ApplicationSearch />} />
+
+          {/* <Route path="/testing" element={<ToasterTest />} /> */}
         </Routes>
       </Router>
     </>

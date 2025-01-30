@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/api/axiosInstance";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const ApplicationSearch = () => {
   const [refNum, setRefNum] = useState("");
@@ -45,6 +46,9 @@ const ApplicationSearch = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast("A server side error occured. Try again later", {
+        className: "text-xl font-oxygen p-5 min-w-[300px]",
+      });
     }
   }
 
@@ -68,7 +72,7 @@ const ApplicationSearch = () => {
               />
               <Button
                 onClick={handleClick}
-                className="bg-cecOrange text-white text-center h-[40px] w-[40px] rounded-full hover:bg-[#8C6200] mb-12"
+                className="bg-cecOrange text-white text-center h-[40px] w-[40px] rounded-full hover:bg-[#8A5F00] mb-12"
               >
                 <Search size={15} />
               </Button>

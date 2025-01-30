@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import ReCAPTCHA from "react-google-recaptcha";
 import acks from "@/form_constants/Acks";
 import axiosInstance from "@/api/axiosInstance";
+import { toast } from "sonner";
 
 const Declaration = () => {
   //Use States for all the session storage items
@@ -57,9 +58,11 @@ const Declaration = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     //If checkbox is not ticked, return
     if (!isChecked) {
       setError("You must accept the terms and conditions to proceed.");
+      setLoading(false);
       return;
     }
 
@@ -109,8 +112,14 @@ const Declaration = () => {
       );
       console.log("Application Successful");
       console.log(response.data);
+      setLoading(false);
       navigate(`/submit/${response.data?.result?.referenceNumber}`);
     } catch (error) {
+      setLoading(false);
+      toast("A server side error occured. Try again later", {
+        className: "text-xl font-oxygen p-5 min-w-[300px]",
+      });
+      navigate("/");
       console.log(error);
     }
   }
