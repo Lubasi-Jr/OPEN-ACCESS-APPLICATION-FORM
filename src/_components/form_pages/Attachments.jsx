@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BackButton from "@/Helper Components/BackButton";
 import FormHeader from "@/Helper Components/FormHeader";
+import { toast } from "sonner";
 
 const initialFiles = [];
 
@@ -41,10 +42,12 @@ const Attachments = () => {
     if (!file) return;
 
     // Check if the file is a PDF
-    /* if (file.type !== "application/pdf") {
-      alert("Only PDF documents are allowed.");
+    if (file.type !== "application/pdf") {
+      toast("Only PDF's are allowed", {
+        className: "text-xl font-oxygen p-5 min-w-[300px]",
+      });
       return;
-    } */
+    }
 
     const id = e.target.id; // This will be "taxCertificate" or "proofOfFunds"
     const type = id === "taxCertificate" ? 0 : 1; // Assign type based on input

@@ -57,7 +57,7 @@ const ApplicationSearch = () => {
       <div className="z-10 w-full md:w-4/5 bg-white rounded-md h-full px-10 py-10 mx-auto flex flex-col items-center justify-center gap-2">
         {isVerified ? (
           loading ? (
-            <ClipLoader />
+            <ClipLoader size={150} color="#AD7900" loading={loading} />
           ) : (
             <>
               <h2 className="text-3xl whitespace-wrap">
