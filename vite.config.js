@@ -15,3 +15,5 @@ export default defineConfig({
     port: 8003,
   }, */
 });
+
+//VITE_APP_API_BASE_URL=https://10.7.0.78:8000

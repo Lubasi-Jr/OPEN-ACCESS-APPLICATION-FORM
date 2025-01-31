@@ -78,7 +78,7 @@ const Injection = () => {
   };
 
   return (
-    <div className="w-full px-20 py-20 bg-cecOrange h-full">
+    <div className="w-full px-3 py-3  md:px-20 md:py-20 bg-cecOrange h-[100vh] md:h-full">
       <div className="font-oxygen w-full md:w-4/5 bg-white rounded-md px-10 py-10 mx-auto">
         <FormHeader />
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

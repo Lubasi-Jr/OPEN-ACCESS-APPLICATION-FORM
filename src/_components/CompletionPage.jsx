@@ -13,7 +13,7 @@ const CompletionPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 300);
   }, []);
 
   const handleCopy = () => {
@@ -25,7 +25,7 @@ const CompletionPage = () => {
   };
 
   return (
-    <div className="w-full px-20 py-20 bg-cecOrange h-screen">
+    <div className="w-full px-3 py-3  md:px-20 md:py-20 bg-cecOrange h-screen">
       <div className="z-10 w-full md:w-4/5 bg-white rounded-md h-full px-10 py-10 mx-auto flex flex-col items-center justify-center gap-2">
         {isLoading ? (
           <ClipLoader loading={isLoading} size={150} color="#AD7900" />

@@ -38,7 +38,7 @@ const Declaration = () => {
     setDrawing(JSON.parse(sessionStorage.getItem("drawingDetails")) || {});
     setAttachments(JSON.parse(sessionStorage.getItem("attachments")) || {}); //attachments
 
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 300);
   }, []);
 
   //Captcha security
@@ -125,7 +125,7 @@ const Declaration = () => {
   }
 
   return (
-    <div className="w-full px-20 py-20 bg-cecOrange h-full">
+    <div className="w-full px-3 py-3  md:px-20 md:py-20 bg-cecOrange h-[100vh] md:h-full">
       <div className="font-oxygen w-full md:w-4/5 bg-white rounded-md px-10 py-10 mx-auto">
         <FormHeader />
         {isLoading ? (
